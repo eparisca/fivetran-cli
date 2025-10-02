@@ -25,3 +25,7 @@ make install
 
 ```bash
 export FIVETRAN_APIKEY="YOUR_API_KEY"
+export FIVETRAN_APISECRET="YOUR_API_SECRET"
+./fivetran destination list
+```
+
