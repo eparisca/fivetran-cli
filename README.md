@@ -29,3 +29,10 @@ export FIVETRAN_APISECRET="YOUR_API_SECRET"
 ./fivetran destination list
 ```
 
+Tip: Pipe the outputs to [jq](https://jqlang.org/download/) to filter results
+
+Example:
+```bash
+./fivetran destination list | jq '.[] | select(.private_link_id != null) | {id, name, private_link_id}'
+```
+
