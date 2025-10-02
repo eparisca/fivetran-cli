@@ -13,6 +13,16 @@ def get(id: str):
     return atlas("GET", endpoint)
 
 
+def run_destination_setup_tests(id: str):
+    """Run Destination Setup Tests"""
+    endpoint = f"destinations/{id}/test"
+    payload = {
+        "trust_certificates": True,
+        "trust_fingerprints": True,
+    }
+    return atlas("POST", endpoint, payload)
+
+
 if __name__ == "__main__":
     destinations = list_all()
     print(destinations)

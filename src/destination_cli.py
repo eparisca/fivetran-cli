@@ -21,3 +21,10 @@ def list():
     """List all destinations"""
     response = destination.list_all()
     print(format_response_data(response))
+
+
+@app.command()
+def test(id: Annotated[str, typer.Argument(help="Destination ID")]):
+    """Run destination setup tests"""
+    response = destination.run_destination_setup_tests(id)
+    print(format_response_data(response))
