@@ -15,6 +15,12 @@ A simple Fivetran API client for the command-line.
 make install
 ```
 
+## Run unit tests
+
+```bash
+make test
+```
+
 ## `fivetran` menu
 
 ```bash
