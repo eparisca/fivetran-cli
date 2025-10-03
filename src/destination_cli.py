@@ -1,8 +1,12 @@
 import typer
 from typing_extensions import Annotated
 
-import destination
-import group
+from destination import (
+    get_destination,
+    list_all_destinations,
+    run_destination_setup_tests,
+)
+from group import get_group_by_name
 from output import format_response_data
 
 app = typer.Typer()
@@ -11,20 +15,20 @@ app = typer.Typer()
 @app.command()
 def get(name: Annotated[str, typer.Argument(help="Destination name")]):
     """Get a destination by name"""
-    response = group.get_by_name(name)
-    response = destination.get(response.get("id"))
+    response = get_group_by_name(name)
+    response = get_destination(response.get("id"))
     print(format_response_data(response))
 
 
 @app.command()
 def list():
     """List all destinations"""
-    response = destination.list_all()
+    response = list_all_destinations()
     print(format_response_data(response))
 
 
 @app.command()
 def test(id: Annotated[str, typer.Argument(help="Destination ID")]):
     """Run destination setup tests"""
-    response = destination.run_destination_setup_tests(id)
+    response = run_destination_setup_tests(id)
     print(format_response_data(response))

@@ -16,7 +16,7 @@ class ExpirationPeriod(Enum):
 DEFAULT_PERMISSIONS = [{"access_level": "READ", "resource_type": "DESTINATION"}]
 
 
-def validate_name(name: str):
+def validate_system_key_name(name: str):
     """Validate the system key name"""
     # key name must start with a letter or underscore, and only contain letters, numbers or underscores
     pattern = re.compile(r"^[a-zA-Z_][a-zA-Z0-9_]*$")
@@ -24,7 +24,7 @@ def validate_name(name: str):
         raise ValueError("Invalid system key name")
 
 
-def create(name: str, expiration_period: str, permissions: list):
+def create_system_key(name: str, expiration_period: str, permissions: list):
     """Create a new system key"""
     endpoint = "system-keys"
     payload = {
@@ -36,15 +36,15 @@ def create(name: str, expiration_period: str, permissions: list):
     return atlas("POST", endpoint, payload=payload)
 
 
-def get(name: str):
+def get_system_key(name: str):
     """Get a system key"""
-    system_keys = list_all()
+    system_keys = list_all_system_keys()
     # filter items by name
     system_key = next((item for item in system_keys if item["name"] == name), None)
     return system_key
 
 
-def update(key_id: str, name: str, permissions: list):
+def update_system_key(key_id: str, name: str, permissions: list):
     """Update a system key"""
     endpoint = f"system-keys/{key_id}"
     payload = {"name": name, "permissions": permissions}
@@ -52,7 +52,7 @@ def update(key_id: str, name: str, permissions: list):
     return atlas("PATCH", endpoint, payload=payload)
 
 
-def rotate(key_id: str):
+def rotate_system_key(key_id: str):
     """Rotate a system key"""
     endpoint = f"system-keys/{key_id}/rotate"
     payload = {"expiration_period": "SIX_MONTHS"}
@@ -60,7 +60,7 @@ def rotate(key_id: str):
     return atlas("POST", endpoint, payload=payload)
 
 
-def list_all():
+def list_all_system_keys():
     """List all system keys"""
     endpoint = f"system-keys/?limit={API_MAX_RESULT_LIMIT}"
     response = atlas("GET", endpoint)["data"]

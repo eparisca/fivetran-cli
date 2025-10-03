@@ -1,8 +1,17 @@
 import typer
 from typing_extensions import Annotated
 
-import system_key
 from output import format_response_data
+from system_key import (
+    DEFAULT_PERMISSIONS,
+    ExpirationPeriod,
+    create_system_key,
+    get_system_key,
+    list_all_system_keys,
+    rotate_system_key,
+    update_system_key,
+    validate_system_key_name,
+)
 
 app = typer.Typer()
 
@@ -10,24 +19,24 @@ app = typer.Typer()
 @app.command()
 def create(name: Annotated[str, typer.Argument(help="System key name")]):
     """Create a new system key"""
-    system_key.validate_name(name)
-    expiration_period = system_key.ExpirationPeriod.SIX_MONTHS.value
-    key = system_key.create(name, expiration_period, system_key.DEFAULT_PERMISSIONS)
+    validate_system_key_name(name)
+    expiration_period = ExpirationPeriod.SIX_MONTHS.value
+    key = create_system_key(name, expiration_period, DEFAULT_PERMISSIONS)
     print(format_response_data(key))
 
 
 @app.command()
 def get(name: Annotated[str, typer.Argument(help="System key name")]):
     """Get a system key by name"""
-    system_key.validate_name(name)
-    key = system_key.get(name)
+    validate_system_key_name(name)
+    key = get_system_key(name)
     print(format_response_data(key))
 
 
 @app.command()
 def rotate(key_id: Annotated[str, typer.Argument(help="System key ID")]):
     """Rotate a system key"""
-    key = system_key.rotate(key_id)
+    key = rotate_system_key(key_id)
     print(format_response_data(key))
 
 
@@ -37,13 +46,13 @@ def update(
     name: Annotated[str, typer.Argument(help="System key name")] = None,
 ):
     """Update a system key"""
-    system_key.validate_name(name)
-    key = system_key.update(key_id, name, system_key.DEFAULT_PERMISSIONS)
+    validate_system_key_name(name)
+    key = update_system_key(key_id, name, DEFAULT_PERMISSIONS)
     print(format_response_data(key))
 
 
 @app.command()
 def list():
     """List all system keys"""
-    response = system_key.list_all()
+    response = list_all_system_keys()
     print(format_response_data(response))

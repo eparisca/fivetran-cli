@@ -1,7 +1,7 @@
 import typer
 from typing_extensions import Annotated
 
-import group_user
+from group_user import list_all_group_users
 from output import format_response_data
 
 app = typer.Typer()
@@ -10,5 +10,5 @@ app = typer.Typer()
 @app.command()
 def list(id: Annotated[str, typer.Argument(help="Group ID")]):
     """List all group users"""
-    response = group_user.list_all(id)
+    response = list_all_group_users(id)
     print(format_response_data(response))
