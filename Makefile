@@ -52,22 +52,22 @@ format: ruff-format isort  ## Run formatters
 
 .PHONY: ruff-format
 ruff-format:  ## Run the ruff formatter
-	$(RUFF) format ./src
+	$(RUFF) format ./src ./tests
 
 .PHONY: isort
 isort:  ## Run isort formatter
-	$(PYTHON) -m isort --profile=black --atomic ./src
+	$(PYTHON) -m isort --profile=black --atomic ./src ./tests
 
 .PHONY: ruff-lint
 ruff-lint:  ## Run the ruff linter
-	$(RUFF) check ./src
+	$(RUFF) check ./src ./tests
 
 .PHONY: lint
 lint: ruff-lint  ## Run the linters
 
 .PHONY: test
 test:  ## Run the tests
-	$(PYTEST) ./tests
+	$(PYTEST) ./tests -s
 
 .PHONY: help
 help:  ## Show this help message
